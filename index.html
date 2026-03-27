@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daras - Social Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Ionicons for premium icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body data-theme="dark">
+    <div id="app">
+        <!-- Screens will be injected here by app.js -->
+        <div id="screen-container"></div>
+    </div>
+
+    <!-- Google Login Modal (Realistic) -->
+    <div id="google-auth-modal" class="modal-overlay" style="display: none;">
+        <div class="google-card animate-scale">
+            <div style="text-align: center; margin-bottom: 24px;">
+                <svg viewBox="0 0 48 48" width="40" height="40" style="display: inline-block;">
+                    <path fill="#EA4335"
+                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                    </path>
+                    <path fill="#4285F4"
+                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                    </path>
+                    <path fill="#FBBC05"
+                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z">
+                    </path>
+                    <path fill="#34A853"
+                        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                    </path>
+                </svg>
+                <h2 style="margin-top: 10px; font-weight: 500; font-family: 'Roboto', sans-serif; color: #3c4043;">Sign
+                    in</h2>
+                <p style="font-size: 14px; color: #202124; margin-top: 8px;">with your Google Account</p>
+            </div>
+
+            <div id="google-email-step">
+                <div class="google-input-group">
+                    <input type="email" id="google-email" required placeholder=" ">
+                    <label>Email or phone</label>
+                </div>
+                <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="#" style="color: #1a73e8; font-weight: 500; font-size: 14px; text-decoration: none;">Create
+                        account</a>
+                    <button class="google-btn-next" onclick="App.nextGoogleStep()">Next</button>
+                </div>
+            </div>
+
+            <div id="google-pass-step" style="display: none;">
+                <div
+                    style="margin-bottom: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid #dadce0; padding: 6px 12px; border-radius: 20px; width: fit-content;">
+                    <ion-icon name="person-circle-outline" style="font-size: 20px; color: #5f6368;"></ion-icon>
+                    <span id="display-google-email" style="font-size: 14px; color: #3c4043;"></span>
+                </div>
+                <div class="google-input-group">
+                    <input type="password" id="google-password" required placeholder=" ">
+                    <label>Enter your password</label>
+                </div>
+                <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center;">
+                    <a href="#" style="color: #1a73e8; font-weight: 500; font-size: 14px; text-decoration: none;">Forgot
+                        password?</a>
+                    <button class="google-btn-next" onclick="App.finalGoogleLogin()">Next</button>
+                </div>
+            </div>
+            <button
+                style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: #5f6368;"
+                onclick="App.closeGoogleModal()">×</button>
+        </div>
+    </div>
+
+    <!-- Templates for different screens -->
+    <template id="tpl-onboarding">
+        <div class="onboarding-screen animate-fade">
+            <div class="auth-card glass">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="logo.png" class="app-logo"
+                        style="width: 80px; height: 80px; filter: drop-shadow(0 0 15px var(--primary-glow));">
+                </div>
+                <h1 id="txt-welcome">Daras-ga xush kelibsiz!</h1>
+                <p id="txt-subtitle">Davom etish uchun hisob yarating</p>
+                <br>
+                <div style="display: flex; gap: 10px;">
+                    <div class="input-group">
+                        <label id="lbl-firstname">Ism / First Name</label>
+                        <input type="text" id="in-firstname" placeholder="John">
+                    </div>
+                    <div class="input-group">
+                        <label id="lbl-lastname">Familya / Last Name</label>
+                        <input type="text" id="in-lastname" placeholder="Doe">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label id="lbl-nickname">Nickname</label>
+                    <input type="text" id="in-nickname" placeholder="@username">
+                </div>
+                <div class="input-group">
+                    <label id="lbl-avatar">Avatar URL</label>
+                    <input type="text" id="in-avatar" placeholder="https://example.com/photo.jpg">
+                </div>
+                <div class="input-group">
+                    <label id="lbl-age">Yosh</label>
+                    <input type="number" id="in-age" min="1" max="100">
+                </div>
+                <div class="input-group">
+                    <label id="lbl-gender">Jins</label>
+                    <select id="in-gender">
+                        <option value="male">Erkak</option>
+                        <option value="female">Ayol</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label id="lbl-language">Til</label>
+                    <select id="in-language">
+                        <option value="uz">O'zbek</option>
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label id="lbl-password">Parol</label>
+                    <input type="password" id="in-password" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" id="btn-create-account" style="width: 100%;">
+                    Hisob yaratish
+                </button>
+                <div style="margin: 10px 0; text-align: center; color: var(--text-muted); font-size: 0.8rem;">OR</div>
+                <button class="btn glass" id="btn-google-login" style="width: 100%; gap: 10px; border-radius: 12px;">
+                    <ion-icon name="logo-google"></ion-icon> Login with Google
+                </button>
+                <p style="margin-top: 20px; text-align: center; font-size: 0.9rem;">
+                    <span id="txt-have-account">Hisobingiz bormi?</span> <a href="#" id="link-goto-login"
+                        style="color: var(--primary); font-weight: 600;">Kirish</a>
+                </p>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-login">
+        <div class="onboarding-screen animate-fade">
+            <div class="auth-card glass">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="logo.png" class="app-logo"
+                        style="width: 80px; height: 80px; filter: drop-shadow(0 0 15px var(--primary-glow));">
+                </div>
+                <h1 id="login-header">Xush kelibsiz!</h1>
+                <p id="login-subtitle">Hisobingizga kiring</p>
+                <br>
+                <div class="input-group">
+                    <label id="lbl-login-nickname">Nickname</label>
+                    <input type="text" id="login-nickname" placeholder="@username">
+                </div>
+                <div class="input-group">
+                    <label id="lbl-login-password">Parol</label>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+                <button class="btn btn-primary" id="btn-login-action" style="width: 100%;">
+                    Kirish
+                </button>
+                <div style="margin: 10px 0; text-align: center; color: var(--text-muted); font-size: 0.8rem;">OR</div>
+                <button class="btn glass" id="btn-google-login-alt"
+                    style="width: 100%; gap: 10px; border-radius: 12px;">
+                    <ion-icon name="logo-google"></ion-icon> Login with Google
+                </button>
+                <p style="margin-top: 20px; text-align: center; font-size: 0.9rem;">
+                    <span id="txt-no-account">Hisobingiz yo'qmi?</span> <a href="#" id="link-goto-onboarding"
+                        style="color: var(--primary); font-weight: 600;">Ro'yxatdan o'tish</a>
+                </p>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-dashboard">
+        <div class="dashboard animate-fade">
+            <header class="main-header glass" style="margin: 10px; border-radius: 20px; border: none;">
+                <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;"
+                    onclick="App.switchSection('notes')">
+                    <img src="logo.png" class="app-logo">
+                    <h2 class="gradient-text" style="font-size: 1.8rem; font-weight: 900; margin: 0;">
+                        Daras</h2>
+                </div>
+
+                <div class="search-container">
+                    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+                    <input type="text" class="search-input" id="global-search" placeholder="Search..."
+                        oninput="App.handleSearch(this.value)">
+                    <div id="search-results" class="glass"
+                        style="position: absolute; top: 110%; left: 0; right: 0; z-index: 1000; display: none; max-height: 400px; overflow-y: auto; padding: 10px; border-radius: 15px;">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div id="header-user-info"
+                        style="display: flex; align-items: center; gap: 8px; cursor: pointer; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 30px;"
+                        onclick="App.switchSection('profile')">
+                        <span id="header-user-name" style="font-weight: 600; font-size: 0.9rem;"></span>
+                        <img id="header-user-avatar" class="user-avatar" src="" style="width: 28px; height: 28px;">
+                    </div>
+                </div>
+            </header>
+
+            <div class="stories-container" id="stories-wrapper"
+                style="display: flex; gap: 15px; padding: 10px 20px; overflow-x: auto; scrollbar-width: none;">
+                <!-- Stories will be injected here -->
+            </div>
+
+            <main class="content-area" id="main-content">
+                <!-- Active section content will be here -->
+            </main>
+
+            <nav class="bottom-nav glass">
+                <div class="nav-item active" onclick="App.switchSection('notes', this)">
+                    <ion-icon name="document-text-outline"></ion-icon>
+                    <span id="nav-notes">Notes</span>
+                </div>
+                <div class="nav-item" onclick="App.switchSection('videos', this)">
+                    <ion-icon name="videocam-outline"></ion-icon>
+                    <span id="nav-videos">Videos</span>
+                </div>
+                <div class="nav-item" onclick="App.switchSection('pictures', this)">
+                    <ion-icon name="images-outline"></ion-icon>
+                    <span id="nav-pictures">Pictures</span>
+                </div>
+                <div class="nav-item" onclick="App.switchSection('upload', this)">
+                    <ion-icon name="cloud-upload-outline"></ion-icon>
+                    <span id="nav-upload">Upload</span>
+                </div>
+                <div class="nav-item" onclick="App.switchSection('shorts', this)">
+                    <ion-icon name="play-circle-outline"></ion-icon>
+                    <span id="nav-shorts">Shorts</span>
+                </div>
+                <div class="nav-item" onclick="App.switchSection('leaderboard', this)">
+                    <ion-icon name="trophy-outline"></ion-icon>
+                    <span id="nav-top">Top</span>
+                </div>
+                <div class="nav-item" onclick="App.switchSection('profile', this)">
+                    <ion-icon name="person-outline"></ion-icon>
+                    <span id="nav-profile">Profile</span>
+                </div>
+            </nav>
+        </div>
+    </template>
+
+    <template id="view-leaderboard">
+        <div class="animate-fade">
+            <h1 id="leaderboard-header-title" class="gradient-text" style="margin-bottom: 20px;">🏆 Leaderboard</h1>
+            <div id="leaderboard-container">
+                <!-- Top users injected here -->
+            </div>
+        </div>
+    </template>
+
+    <template id="view-notes">
+        <div class="animate-fade">
+            <h1 id="notes-header-title" style="margin-bottom: 20px;">Global Notes</h1>
+            <div class="notes-grid" id="notes-container">
+                <!-- Notes injected here -->
+            </div>
+        </div>
+    </template>
+
+    <template id="view-videos">
+        <div class="animate-fade">
+            <h1 id="videos-header-title" style="margin-bottom: 20px;">Video Feed</h1>
+            <div class="videos-grid" id="videos-container">
+                <!-- Videos injected here -->
+            </div>
+        </div>
+    </template>
+
+    <template id="view-shorts">
+        <div class="shorts-container animate-fade" id="shorts-container">
+            <!-- Shorts will be injected here -->
+        </div>
+    </template>
+
+    <template id="view-pictures">
+        <div class="animate-fade">
+            <h1 id="pictures-header-title" style="margin-bottom: 20px;">Photos</h1>
+            <div class="pictures-grid" id="pictures-container">
+                <!-- Pictures injected here -->
+            </div>
+        </div>
+    </template>
+
+    <template id="view-upload">
+        <div class="animate-fade">
+            <div class="upload-form glass">
+                <h1 id="up-share-title">Share Content</h1>
+                <p id="up-subtitle">O'zingizning rasm, video yoki eslatmalaringizni ulashing.</p>
+                <br>
+                <div class="upload-type-selector">
+                    <button class="type-btn active" id="btn-type-note" onclick="App.setUploadType('note')">Note</button>
+                    <button class="type-btn" id="btn-type-video" onclick="App.setUploadType('video')">Video</button>
+                    <button class="type-btn" id="btn-type-picture"
+                        onclick="App.setUploadType('picture')">Picture</button>
+                </div>
+                <div class="input-group">
+                    <label>Title</label>
+                    <input type="text" id="up-title" placeholder="Enter title...">
+                </div>
+                <div id="up-content-group" class="input-group">
+                    <label>Content (Text)</label>
+                    <textarea id="up-content"
+                        style="width: 100%; min-height: 120px; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; color: var(--text); outline: none;"></textarea>
+                </div>
+                <div id="up-media-group" class="input-group" style="display: none;">
+                    <label>URL (Image or Video)</label>
+                    <input type="text" id="up-media-url" placeholder="https://...">
+                </div>
+                <button class="btn btn-primary" onclick="App.handleUpload()" style="width: 100%;">Post Content</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="view-profile">
+        <div class="animate-fade">
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <div style="position: relative; display: inline-block;">
+                    <img id="prof-avatar" src=""
+                        style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary); object-fit: cover;">
+                    <button class="btn btn-primary"
+                        style="position: absolute; bottom: 0; right: 0; padding: 8px; border-radius: 50%;"
+                        onclick="App.changeAvatar()">
+                        <ion-icon name="camera-outline"></ion-icon>
+                    </button>
+                </div>
+                <h1 id="prof-name"></h1>
+                <p id="prof-stats"></p>
+                <br>
+                <div class="glass" style="padding: 20px; border-radius: 20px; text-align: left;">
+                    <h3>Sozlamalar / Settings</h3>
+                    <br>
+                    <div class="input-group">
+                        <label>Til / Language</label>
+                        <select id="set-lang" onchange="App.setLanguage(this.value)">
+                            <option value="uz">O'zbek</option>
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" id="btn-toggle-theme"
+                        onclick="App.toggleTheme()">Theme: Dark</button>
+                    <br><br>
+                    <div id="admin-link-container"></div>
+                    <button class="btn" style="width: 100%; background: #ef4444; color: white;"
+                        onclick="App.logout()">Chiqish / Logout</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="view-admin">
+        <div class="animate-fade">
+            <h1>Admin Dashboard</h1>
+            <p>Moderatsiya tizimi</p>
+            <br>
+            <div class="glass" style="padding: 20px; border-radius: 20px;">
+                <h3>Barcha kontentlar</h3>
+                <br>
+                <div id="admin-content-list" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Content list with delete buttons -->
+                </div>
+            </div>
+            <br>
+            <div class="glass" style="padding: 20px; border-radius: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Foydalanuvchilar</h3>
+                    <button class="btn btn-primary" style="padding: 8px 15px; font-size: 0.8rem;"
+                        onclick="App.exportUserLogs()">
+                        <ion-icon name="download-outline"></ion-icon> Logs Download
+                    </button>
+                </div>
+                <div id="admin-user-list" style="display: flex; flex-direction: column; gap: 10px;">
+                    <!-- User list with block buttons -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
