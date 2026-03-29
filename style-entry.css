@@ -1,0 +1,32 @@
+@import url('./style.css');
+
+:root {
+    /* Color Palette - Ultra Modern Dark */
+    --primary: #6366f1;
+    --primary-light: #818cf8;
+    --primary-glow: rgba(99, 102, 241, 0.4);
+    --secondary: #a855f7;
+    --accent: #ec4899;
+    --background: #0b0f1a;
+    --surface: rgba(30, 41, 59, 0.5);
+    --surface-solid: #1e293b;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: rgba(255, 255, 255, 0.08);
+
+    /* rank colors (used later in CSS) */
+    --rank-silver: #cbd5e1;
+    --rank-gold: #f59e0b;
+    --rank-diamond: #38bdf8;
+
+    /* Gradients - More Vibrant */
+    --grad-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --grad-accent: linear-gradient(135deg, #f472b6 0%, #db2777 100%);
+    --grad-surface: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    --grad-premium: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
